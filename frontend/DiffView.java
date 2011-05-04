@@ -1,4 +1,4 @@
-package tests.jigsaw;
+package frontend;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -37,11 +37,12 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import frontend.DiffMatchPatch.Diff;
+import frontend.DiffMatchPatch.Operation;
+
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 import tests.CompileHelper;
-import tests.jigsaw.DiffMatchPatch.Diff;
-import tests.jigsaw.DiffMatchPatch.Operation;
 import AST.ASTNode;
 import AST.ClassDecl;
 import AST.CompilationUnit;
