@@ -1,4 +1,4 @@
-package tests.jigsaw;
+package frontend;
 
 /*
  * Diff Match and Patch
