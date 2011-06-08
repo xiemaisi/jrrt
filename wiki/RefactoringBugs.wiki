@@ -5,17 +5,17 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li> <b>No Check for Name Clash with Class</b>:<br><br>
 
   Test case:
-  <pre>
+  <code lang="java">
     package p;
     class r { }
     ...
     package p.q; 
     class s { }
-  </pre>
+  </code>
 
-  Eclipse allows renaming package <code>p.q</code> to <code>p.r</code>, 
+  Eclipse allows renaming package `p.q` to `p.r`, 
   resulting in uncompilable code due to name clash with class 
-  <class>p.r</code>. When undoing the refactoring, the error marker is
+  <class>p.r`. When undoing the refactoring, the error marker is
   not removed; it vanishes only after further editing and saving the files
   involved.<br>
 
@@ -30,7 +30,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li> <b>Renaming Top Level Type Leads to Undiagnosed Shadowing of Library Type</b>:<br><br>
 
   Test case:
-  <pre>
+  <code lang="java">
   public class A {
     public static void main(String[] args) {
       new Thread() {
@@ -46,11 +46,11 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
       System.out.println(42);
     }
   }
-  </pre>
+  </code>
 
-  Renaming <code>MyThread</code> to <code>Thread</code> shadows the library class <code>java.lang.Thread</code>, which
-  is not noticed by Eclipse. Thus the program changes from printing <code>23</code> before refactoring to printing
-  <code>42</code> after.<br>
+  Renaming `MyThread` to `Thread` shadows the library class `java.lang.Thread`, which
+  is not noticed by Eclipse. Thus the program changes from printing `23` before refactoring to printing
+  `42` after.<br>
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=222848">Eclipse Bugs</a>, turned out to be a duplicate.<br>
 
@@ -59,7 +59,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li> <b>Renaming Member Type in Superclass Leads to Undiagnosed Shadowing</b>:<br><br>
 
   Test case:
-  <pre>
+  <code lang="java">
     class A {
       static class B {
         static int x = 42;
@@ -75,13 +75,13 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 	System.out.println(C.m());
       }
     }
-  </pre>
+  </code>
 	  
-  This prints <code>23</code>. Renaming the class <code>B</code> inside 
-  <code>A</code> to <code>C</code> does not notice that the
-  reference <code>C.x</code> in method <code>C.m</code> will now refer to 
-  <code>A.C.x</code> instead of <code>D.C.x</code>, so the resulting
-  program prints <code>42</code>.<br>
+  This prints `23`. Renaming the class `B` inside 
+  `A` to `C` does not notice that the
+  reference `C.x` in method `C.m` will now refer to 
+  `A.C.x` instead of `D.C.x`, so the resulting
+  program prints `42`.<br>
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220781">Eclipse Bugs</a>.<br>
 
@@ -90,27 +90,27 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li><b>Renaming a Member Type Does Not Check for Shadowing of Inherited Member Types</b>:<br><br>
 
   Test case:
-  <pre>
+  <code lang="java">
   import java.util.Map;
 
   abstract class MyMap implements Map {
     abstract static class MyEntry implements Entry {
     }
   }
-  </pre>
+  </code>
 
-  Renaming the member class <code>MyEntry</code> to <code>Entry</code>
-  does not notice that this shadows the member type <code>Map.Entry</code>.
+  Renaming the member class `MyEntry` to `Entry`
+  does not notice that this shadows the member type `Map.Entry`.
   The resulting program is
 
-  <pre>
+  <code lang="java">
   import java.util.Map;
 
   abstract class MyMap implements Map {
     abstract static class Entry implements Entry {
     }
   }
-  </pre>
+  </code>
 
   which does not compile. It is possible to construct examples where the
   resulting code would still compile, but have a different behaviour.<br>
@@ -123,7 +123,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li><b>Renaming a Type Does Not Check for Capture by Type Variable</b>:<br><br>
 
   Test case:
-  <pre>
+  <code lang="java">
   public class A {
     public static void main(String[] args) {
       C&lt;A&gt; b = new D&lt;String&gt;();
@@ -131,7 +131,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   }
   class C&lt;T&gt; { }
   class D&lt;B&gt; extends C&lt;A&gt; { }
-  </pre>
+  </code>
 
 
 
@@ -144,8 +144,8 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
 
 
-  Renaming class <code>A</code> to <code>B</code> yields the following output:
-  <pre>
+  Renaming class `A` to `B` yields the following output:
+  <code lang="java">
   public class B {
     public static void main(String[] args) {
       C&lt;B&gt; b = new D&lt;String&gt;();
@@ -153,12 +153,12 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   }
   class C&lt;T&gt; { }
   class D&lt;B&gt; extends C&lt;B&gt; { }
-  </pre>
+  </code>
 
-  Note the capture of the argument type <code>A</code> by the type variable
-  <code>B</code>:
-  The program is not compilable, since <code>D&lt;String&gt;()</code> can no
-  longer be cast to <code>D&lt;A&gt;</code>, but only to <code>D&lt;String&gt;</code>.<br>
+  Note the capture of the argument type `A` by the type variable
+  `B`:
+  The program is not compilable, since `D&lt;String&gt;()` can no
+  longer be cast to `D&lt;A&gt;`, but only to `D&lt;String&gt;`.<br>
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220780">Eclipse Bugs</a>.<br>
 
@@ -172,7 +172,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li><b>Renaming Field Can Shadow Static Import</b>:<br><br>
 
   Test case:
-  <pre>
+  <code lang="java">
   import static java.lang.Math.PI;
 
   class Indiana {
@@ -181,16 +181,16 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
       return PI*r*r;
     }
   }
-  </pre>
+  </code>
 
-  Renaming the field <code>myPI</code> to <code>PI</code> shadows the import from <code>java.lang.Math</code>.
+  Renaming the field `myPI` to `PI` shadows the import from `java.lang.Math`.
   This problem is correctly diagnosed by Eclipse and JBuilder, but not by NetBeans and JDeveloper. A
   <a href="http://www.jetbrains.net/jira/browse/IDEA-20665">slightly more complex example</a> fools IntelliJ.
 
 <li><b>Renaming Local Variable Can Lead to Shadowing By Field</b>:<br><br>
 
   Test case:
-  <pre>
+  <code lang="java">
   public class A {
     Object m() {
       final int i = 23;
@@ -205,19 +205,19 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
       System.out.println(new A().m());
     }
   }
-  </pre>
+  </code>
 
-  This prints <code>23</code>. Renaming the local variable <code>i</code> in 
-  method <code>A.m</code> to <code>j</code> does not notice that the reference 
-  in the <code>toString()</code> method of the anonymous class will now
-  refer to the field <code>j</code>, so the resulting program prints 
-  <code>42</code>.<br>
+  This prints `23`. Renaming the local variable `i` in 
+  method `A.m` to `j` does not notice that the reference 
+  in the `toString()` method of the anonymous class will now
+  refer to the field `j`, so the resulting program prints 
+  `42`.<br>
 	
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=213144">Eclipse Bugs</a>.<br>
 
   The same bug also occurs in JBuilder, <a href="http://www.jetbrains.net/jira/browse/IDEA-20700">IntelliJ</a> (fixed), and JDeveloper, 
   but not in NetBeans. If we instead try to
-  rename <code>j</code> to <code>i</code>, Eclipse and JBuilder both report the danger of shadowing, whereas
+  rename `j` to `i`, Eclipse and JBuilder both report the danger of shadowing, whereas
   NetBeans and IntelliJ do not. JDeveloper does not implement this second renaming.
 
 	
@@ -227,7 +227,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li><b>Renaming Method Can Lead to Shadowing of Statically Imported Method</b>:<br><br>
 
   Test case:
-  <pre>
+  <code lang="java">
     import static java.lang.String.*;
 
     public class A {
@@ -236,11 +236,11 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
         System.out.println(valueOf(23));
       }
     }
-  </pre>
+  </code>
 	  
-  This prints <code>23</code>. Renaming the method <code>A.m</code> to 
-  <code>valueOf</code> shadows the statically imported method 
-  <code>String.valueOf</code>, so the resulting program prints <code>42</code>.<br>
+  This prints `23`. Renaming the method `A.m` to 
+  `valueOf` shadows the statically imported method 
+  `String.valueOf`, so the resulting program prints `42`.<br>
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220779">Eclipse Bugs</a>.<br>
 
@@ -253,13 +253,13 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li> <b>Should Not Allow Encapsulating Fields in Interfaces</b>:<br><br>
 
    Test case:
-   <pre>
+   <code lang="java">
      interface A {
        int f = 23;
      }
-   </pre>
+   </code>
 
-   Encapsulating field <code>A.f</code> should fail, since it is in an interface and hence no getter method can be
+   Encapsulating field `A.f` should fail, since it is in an interface and hence no getter method can be
    created. This is, however, not detected, resulting in uncompilable code.
 
    This bug was reported by someone else <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=34310">quite some time ago</a>,
@@ -270,17 +270,17 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li> <b>No Check for Method Hiding</b>:<br><br>
 
    Test case:
-   <pre>
+   <code lang="java">
      class A {
        void getI(String s) { }
 
        class C { class B { void m() { getI(""); } } private int i; }
      }
-   </pre>
+   </code>
 
-   When encapsulating field <code>C.i</code>, Eclipse generates a getter method
-   <code>getI()</code> in class C which shadows the access in 
-   method <code>C.B.m()</code> and leads to uncompilable code.<br>
+   When encapsulating field `C.i`, Eclipse generates a getter method
+   `getI()` in class C which shadows the access in 
+   method `C.B.m()` and leads to uncompilable code.<br>
 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209315">Eclipse Bugs</a>, turned out to be a duplicate.<br>
@@ -290,7 +290,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li> <b>No Check for Overloading Problems</b>:<br><br>
 
    Test case:
-   <pre>
+   <code lang="java">
      class A {
        public int i;
      }
@@ -302,12 +302,12 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 	 System.out.println("i == "+a.i);
        }
      }
-   </pre>
+   </code>
 
-   This code prints <code>i == 23</code>, as it should. Now we can encapsulate 
-   field <code>A.i</code>, yielding the following code:
+   This code prints `i == 23`, as it should. Now we can encapsulate 
+   field `A.i`, yielding the following code:
 
-   <pre>
+   <code lang="java">
      class A {
        private int i;
        public void setI(int i) { this.i = i; }
@@ -321,9 +321,9 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 	 a.setI(23);
 	 System.out.println("i == "+a.getI());
      }
-   </pre>
+   </code>
 
-   This code compiles and prints <code>i == 42</code>.<br>
+   This code compiles and prints `i == 42`.<br>
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209316">Eclipse Bugs</a>.<br>
 
@@ -332,19 +332,19 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li><b>No Check for Invalid Overloading</b>:<br><br>
 
    Test case:
-   <pre>
+   <code lang="java">
      class A {
        public int i;
      }
      class B extends A {
        private int getI() { return 42; }
      }
-   </pre>
+   </code>
 
-   Encapsulating field <code>A.i</code> generates a public getter method 
-   <code>A.getI()</code> which cannot be overloaded by <code>B.getI()</code>, 
+   Encapsulating field `A.i` generates a public getter method 
+   `A.getI()` which cannot be overloaded by `B.getI()`, 
    resulting in a compiler error. The
-   same kind of problem occurs if, say, <code>B.getI()</code> were
+   same kind of problem occurs if, say, `B.getI()` were
    declared as having return type "float".<br>
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209317">Eclipse Bugs</a>, turned out to be a duplicate.<br>
@@ -359,7 +359,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   a new method that fails to compile.<br>
 
   Original program:
-  <pre>
+  <code lang="java">
   private int f(boolean b1, boolean b2) {
     int n = 0;
     int i = 0;
@@ -371,10 +371,10 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
     // to here
     return n;
   }
-  </pre>
+  </code>
   Applying Extract Method on the selected code (signalled by the comments)
   results with the following code: 
-  <pre>
+  <code lang="java">
   private int f(boolean b1, boolean b2) {
     int n = 0;
     int i = 0;
@@ -390,13 +390,13 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
       n = n + i;
     return n;
   }
-  </pre>
+  </code>
   Problem: Eclipse did not identify that the local variable i should be sent as 
-  a parameter. The program doesn't compile anymore, because in the statement <code>n = 
-  n + i</code>; in the new method, "the local variable <code>i</code> may not have been initialized".
+  a parameter. The program doesn't compile anymore, because in the statement `n = 
+  n + i`; in the new method, "the local variable `i` may not have been initialized".
 
   Instead, the refactored source should look like this:
-  <pre>
+  <code lang="java">
   private int f(boolean b1, boolean b2) {
     int n = 0;
     int i = 0;
@@ -411,7 +411,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
       n = n + i;
     return n;
   }
-  </pre>
+  </code>
 
   Track this bug at <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109280">Eclipse Bugs</a>.<br>
   <b>Note</b>: This bug was fixed in Eclipse 3.2 RC1. It does not occur in JBuilder, NetBeans, IntelliJ, and JDeveloper.
@@ -419,7 +419,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   results in an unnecessary rejection.<br>
 
   Original program: 
-  <pre>
+  <code lang="java">
   private int g(boolean b) {
     int n = 10;
     int i = 0;
@@ -435,19 +435,19 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
     }
     return n;
   }
-  </pre>
+  </code>
 
   Applying Extract Method on the selected code (signalled by the comments)
   results in a rejection with the message: "Ambiguous return value: selected 
   block contains more than one assignment to local variable".
 
-  In fact, because of the <code>break</code> statement, only the modified local variable <code>n</code> 
-  should be returned. The local variable <code>i</code> will never be relevant on return from 
-  the extracted method. As a result, variable <code>i</code> can be localized in the new 
+  In fact, because of the `break` statement, only the modified local variable `n` 
+  should be returned. The local variable `i` will never be relevant on return from 
+  the extracted method. As a result, variable `i` can be localized in the new 
   method.
 
   The refactored source should look like this:
-  <pre>
+  <code lang="java">
   private int g(boolean b) {
     int n = 10;
     int i = 0;
@@ -466,7 +466,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
     n -= i;
     return n;
   }
-  </pre>
+  </code>
   Track this bug at <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109282">Eclipse Bugs</a>.<br>
 
   The same bug also occurs in JBuilder, NetBeans, and JDeveloper, but not in IntelliJ.
@@ -474,7 +474,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li><b>Liveness Analysis in Extract Method Is Not Precise Enough</b>:<br><br>
 
     Test case:
-    <pre>
+    <code lang="java">
     public class A {
       void m() {
         int y;
@@ -492,12 +492,12 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
         //to
       }
     }
-    </pre>
+    </code>
 	  
-    If we extract the statements between <code>//from</code> and 
-    <code>//to</code> into a method, Eclipse infers the local variable 
-    <code>y</code> to be live and passes it as a parameter to the
-    newly created method. In fact, however, <code>y</code> is not live, 
+    If we extract the statements between `//from` and 
+    `//to` into a method, Eclipse infers the local variable 
+    `y` to be live and passes it as a parameter to the
+    newly created method. In fact, however, `y` is not live, 
     so the resulting code does not compile due to a violation of the 
     definite assignment restriction.<br>
 
@@ -508,7 +508,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li><b>Local types are not handled correctly</b>:<br><br>
 
     Test case:
-    <pre>
+    <code lang="java">
     public class A {
       void m() {
         // from
@@ -518,12 +518,12 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
         x = null;
       }
     }
-    </pre>
+    </code>
 
-    If we extract the statements between <code>//from</code> and 
-    <code>//to</code> into a method <code>n</code> in Eclipse, we get
+    If we extract the statements between `//from` and 
+    `//to` into a method `n` in Eclipse, we get
 
-    <pre>
+    <code lang="java">
     public class A {
       void m() {
         X x;
@@ -536,7 +536,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
         X x;
       }
     }
-    </pre>
+    </code>
 
     which fails to compile.<br>
 
@@ -544,7 +544,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li> <b>Incorrect dataflow analysis</b>:<br><br>
 
   Test case:
-  <pre>
+  <code lang="java">
   public class A {
     void m(boolean b) {
       int x = 42;
@@ -564,11 +564,11 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
         new A().m(true);
     }
   }
-  </pre>
+  </code>
 
-  This program prints <code>23</code>. Extracting the statement between the comments to a method <code>n</code> in Eclipse yields
+  This program prints `23`. Extracting the statement between the comments to a method `n` in Eclipse yields
 
-  <pre>
+  <code lang="java">
   public class A {
     void m(boolean b) {
       int x = 42;
@@ -591,12 +591,12 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
         new A().m(true);
     }
   }
-  </pre>
+  </code>
 
-  Eclipse has <code>n</code> return the value of <code>x</code>, which is unnecessary, but not our main concern. More importantly, note that the
-  value printed in the <code>catch</code> clause is the unmodified value of <code>x</code>, hence the refactored program prints <code>42</code>.<br>
+  Eclipse has `n` return the value of `x`, which is unnecessary, but not our main concern. More importantly, note that the
+  value printed in the `catch` clause is the unmodified value of `x`, hence the refactored program prints `42`.<br>
 
-  The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-21120">IntelliJ</a>, although it correctly diagnoses that the value of <code>x</code> does not need to be returned. The bug is fixed in the newest release.
+  The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-21120">IntelliJ</a>, although it correctly diagnoses that the value of `x` does not need to be returned. The bug is fixed in the newest release.
 
 
 <h2>Bugs in Inline Local Variable</h2>
@@ -604,7 +604,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li> <b>Incorrect handling of references to final variables</b>:<br><br>
 
   Test case:
-  <pre>
+  <code lang="java">
   class A {
     void m() {
       int j = 23;
@@ -614,15 +614,15 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
       };
     }
   }
-  </pre>
+  </code>
 
-  Inlining variable <code>i</code> replaces the initializer of the anonymous class
+  Inlining variable `i` replaces the initializer of the anonymous class
   with
-  <pre>
+  <code lang="java">
         { System.out.println(j); }
-  </pre>
+  </code>
 
-  which fails to compile, since <code>j</code> is not final and hence inaccessible
+  which fails to compile, since `j` is not final and hence inaccessible
   from inside the anonymous class.<br>
 
   The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20790">IntelliJ</a>.
@@ -632,10 +632,10 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <h2>Bugs in Push Down Method</h2>
 Note: None of these example refactorings could be tested in JDeveloper.
 <ol> 
-<li> <b>Incorrect handling of <code>super</code> accesses</b>:<br><br>
+<li> <b>Incorrect handling of `super` accesses</b>:<br><br>
    
    Test case:
-   <pre>
+   <code lang="java">
      class A {
        void k() { System.out.println(23); }
      }
@@ -648,11 +648,11 @@ Note: None of these example refactorings could be tested in JDeveloper.
          new C().m();
        }
      }
-   </pre>
+   </code>
    	 
-   This prints <code>23</code>. Pushing down <code>B.m</code> into 
-   <code>C</code> just moves the method without any
-   adjustments, so the resulting program prints <code>42</code>.<br>
+   This prints `23`. Pushing down `B.m` into 
+   `C` just moves the method without any
+   adjustments, so the resulting program prints `42`.<br>
    
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211755">Eclipse Bugs</a>.<br>
 
@@ -661,7 +661,7 @@ Note: None of these example refactorings could be tested in JDeveloper.
 <li> <b>Incorrect handling of field accesses</b>:<br><br>   
 
    Test case:
-   <pre>
+   <code lang="java">
      class A {
        protected int x = 23;
        void m() { System.out.println(x); }
@@ -672,12 +672,12 @@ Note: None of these example refactorings could be tested in JDeveloper.
          new B().m();
        }
      }
-   </pre>
+   </code>
      
-   This prints <code>23</code>. Pushing down <code>A.m</code> into 
-   <code>B</code> just moves the method without any
+   This prints `23`. Pushing down `A.m` into 
+   `B` just moves the method without any
 
-   adjustments, so the resulting program prints <code>42</code>.<br>
+   adjustments, so the resulting program prints `42`.<br>
    
 
    Reported as a comment to the previous bug.<br>
@@ -686,7 +686,7 @@ Note: None of these example refactorings could be tested in JDeveloper.
 <li> <b>Incorrect Handling of Type Accesses</b>:<br><br>
    
    Test case:
-   <pre>
+   <code lang="java">
      class A {
        class B { public B() { System.out.println(23); } }
        B m() { return new B(); }
@@ -697,12 +697,12 @@ Note: None of these example refactorings could be tested in JDeveloper.
          new C().m();
        }
      }
-   </pre>
+   </code>
      
-   This prints <code>23</code>. Pushing down <code>A.m</code> into 
-   <code>B</code> just moves the method without any
-   adjustments, so the resulting program prints <code>42</code>. 
-   A similar issue exists with <code>throws</code> clauses.<br>
+   This prints `23`. Pushing down `A.m` into 
+   `B` just moves the method without any
+   adjustments, so the resulting program prints `42`. 
+   A similar issue exists with `throws` clauses.<br>
    
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211859">Eclipse Bugs</a>.<br>
 
@@ -711,7 +711,7 @@ Note: None of these example refactorings could be tested in JDeveloper.
 <li><b>Incorrect Handling of Private Method Accesses</b>:<br><br>
 
    Test case:
-   <pre>
+   <code lang="java">
      class A {
        private void k() { System.out.println(23); }
        void m() { k(); }
@@ -722,11 +722,11 @@ Note: None of these example refactorings could be tested in JDeveloper.
          new B().m();
        }
      }
-   </pre>
+   </code>
      
-   This prints <code>23</code>. Pushing down <code>A.m</code> into 
-   <code>B</code> just moves the method without any
-   adjustments, so the resulting program prints <code>42</code>.<br>
+   This prints `23`. Pushing down `A.m` into 
+   `B` just moves the method without any
+   adjustments, so the resulting program prints `42`.<br>
    
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211860">Eclipse Bugs</a>.<br>
 
@@ -736,7 +736,7 @@ Note: None of these example refactorings could be tested in JDeveloper.
 <li><b>No Check for References to Moved Method</b>:<br><br>
    
    Test case:
-   <pre>
+   <code lang="java">
      class A {
        void m() { }
      }
@@ -745,10 +745,10 @@ Note: None of these example refactorings could be tested in JDeveloper.
          new A().m();
        }
      }
-   </pre>
+   </code>
    
-   Pushing down <code>A.m</code> into <code>B</code> does not detect the 
-   reference to <code>A.m</code> in <code>B.main</code>, so
+   Pushing down `A.m` into `B` does not detect the 
+   reference to `A.m` in `B.main`, so
    the resulting program fails to compile.<br>
    
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211861">Eclipse Bugs</a>, turned out to be a duplicate.<br>
