@@ -22,8 +22,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=208200">Eclipse Bugs</a>.
 
   The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20574">IntelliJ</a> (fixed), and JDeveloper.
-
-
+</ol>
 
 <h2>Bugs in Rename Type</h2>
 <ol>
