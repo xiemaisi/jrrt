@@ -30,7 +30,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <li> <b>Renaming Top Level Type Leads to Undiagnosed Shadowing of Library Type</b>:
 
   Test case:
-  <code lang="java">
+  {{{
   public class A {
     public static void main(String[] args) {
       new Thread() {
@@ -46,7 +46,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
       System.out.println(42);
     }
   }
-  </code>
+  }}}
 
   Renaming `MyThread` to `Thread` shadows the library class `java.lang.Thread`, which
   is not noticed by Eclipse. Thus the program changes from printing `23` before refactoring to printing
