@@ -24,7 +24,7 @@ aspect AccessVariable {
 	syn boolean Callable.hasVariable(String name);
 	eq TypeDecl.hasVariable(String name) = !memberFields(name).isEmpty();
 	eq Callable.hasVariable(String name) = !parameterDeclaration(name).isEmpty();
-	eq CatchClause.hasVariable(String name) = getParameter().name().equals(name);
+	eq BasicCatch.hasVariable(String name) = getParameter().name().equals(name);
 	eq ForStmt.hasVariable(String name) = localVariableDeclaration(name) != null;
 	eq EnhancedForStmt.hasVariable(String name) = getVariableDeclaration().name().equals(name);
 	
@@ -204,7 +204,7 @@ aspect AccessVariable {
 		if(!acc.isUnknownVarAccess()) return acc;
 		return accessVariable(decl).moveInto(this);
 	}
-	eq CatchClause.getParameter().accessVariable(Variable decl) = accessParameter(decl);
+	eq BasicCatch.getParameter().accessVariable(Variable decl) = accessParameter(decl);
 
 	// The scope of a local variable declared in the ForInit part of the for
 	// statement includes all of the following:
@@ -228,7 +228,8 @@ aspect AccessVariable {
 		return unknownVarAccess();
 	}
 	
-	syn lazy SymbolicVarAccess CatchClause.accessParameter(Variable decl) =
+	syn lazy SymbolicVarAccess CatchClause.accessParameter(Variable decl);
+	eq BasicCatch.accessParameter(Variable decl) =
 		getParameter() == decl ? getParameter() : unknownVarAccess();
 
 	syn lazy SymbolicVarAccess Block.accessLocalVariable(Variable decl, int index) {

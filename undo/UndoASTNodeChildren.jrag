@@ -1,6 +1,6 @@
 aspect UndoASTNodeChildren {
 	
-	refine AST public void ASTNode.setChild(final T node, final int i) {
+	refine ASTNode public void ASTNode.setChild(final ASTNode node, final int i) {
 		if (Program.isRecordingASTChanges()) {
 			Program.addUndoAction(new ASTModificationSetChild() {
 				{
@@ -129,7 +129,7 @@ aspect UndoASTNodeChildren {
 		int oldNumChildren;
 	}
 	
-	refine AST public void ASTNode.insertChild(final T node, final int i) {
+	refine ASTNode public void ASTNode.insertChild(final ASTNode node, final int i) {
 		if (Program.isRecordingASTChanges()) {
 			Program.addUndoAction(new ASTModificationInsertChild() {
 				{

@@ -6,7 +6,7 @@ import tests.RelativesTests.RelativesTests;
 import tests.constraints.AccessibilityTests;
 
 public class AllTests {
-	public static boolean TEST_UNDO = true;
+	public static boolean TEST_UNDO = false;
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Refactoring tests");

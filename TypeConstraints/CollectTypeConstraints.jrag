@@ -135,7 +135,7 @@ aspect CollectTypeConstraints {
 	
 	protected void TryStmt.collectTypeConstraints(Predicate<? super TypeConstraint> pred, Collection<TypeConstraint> constraints) {
 		for(CatchClause cc : getCatchClauses())
-			addConstraint(constraints, pred, new SimpleTypeConstraint(cc, "catch clause", cc.getParameter().getTypeAccess(), Operator.LE, cc.typeThrowable()));
+			addConstraint(constraints, pred, new SimpleTypeConstraint(cc, "catch clause", ((BasicCatch)cc).getParameter().getTypeAccess(), Operator.LE, cc.typeThrowable()));
 		// there is also a constraint that types in later catch clauses may not be subtypes of types in earlier ones, but we cannot express it
 		// we circumvent this by never allowing subtypes of Throwable to be generalised
 		super.collectTypeConstraints(pred, constraints);

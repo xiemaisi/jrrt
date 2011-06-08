@@ -1,8 +1,4 @@
-import java.util.Collection;
-import java.util.Iterator;
-
 import tests.CompileHelper;
-import AST.MonitorAction;
 import AST.Program;
 import AST.TypeDecl;
 
