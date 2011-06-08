@@ -21,7 +21,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=208200">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20574">IntelliJ</a> (since fixed), and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20574">IntelliJ</a> (fixed), and JDeveloper.
 
 
 
@@ -85,7 +85,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220781">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20634">IntelliJ</a> (since fixed), and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20634">IntelliJ</a> (fixed), and JDeveloper.
 
 <li><b>Renaming a Member Type Does Not Check for Shadowing of Inherited Member Types</b>:
 
@@ -285,7 +285,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209315">Eclipse Bugs</a>, turned out to be a duplicate.
 
-  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20720">IntelliJ</a> (since fixed), and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20720">IntelliJ</a> (fixed), and JDeveloper.
 
 <li> <b>No Check for Overloading Problems</b>:
 
@@ -327,7 +327,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209316">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20745">IntelliJ</a> (since fixed), and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20745">IntelliJ</a> (fixed), and JDeveloper.
 
 <li><b>No Check for Invalid Overloading</b>:
 
@@ -411,11 +411,10 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   }
   }}}
 
-  Reported to <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109280">Eclipse Bugs</a> (since fixed).
+  Reported to <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109280">Eclipse Bugs</a> (fixed).
 
   This bug does not occur in JBuilder, !NetBeans, IntelliJ, and JDeveloper.
-<li>Trying to apply the Extract Method refactoring on the following selection 
-  results in an unnecessary rejection.
+<li>Trying to apply the Extract Method refactoring on the following selection results in an unnecessary rejection.
 
   Original program: 
   {{{
@@ -539,7 +538,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
     which fails to compile.
 
-    The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20769">IntelliJ</a>.
+    The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20769">IntelliJ</a> (fixed).
 <li> <b>Incorrect dataflow analysis</b>:
 
   Test case:
@@ -681,7 +680,7 @@ Note: None of these example refactorings could be tested in JDeveloper.
 
    Reported as a comment to the previous bug.
 
-   The same bug occurs in JBuilder, !NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20848">IntelliJ</a>.
+   The same bug occurs in JBuilder, !NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20848">IntelliJ</a> (fixed).
 <li> <b>Incorrect Handling of Type Accesses</b>:
    
    Test case:
@@ -729,7 +728,7 @@ Note: None of these example refactorings could be tested in JDeveloper.
    
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211860">Eclipse Bugs</a>.
 
-  The same bug occurs in JBuilder, !NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20873">IntelliJ</a>.
+  The same bug occurs in JBuilder, !NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20873">IntelliJ</a> (fixed).
 
 
 <li><b>No Check for References to Moved Method</b>:
