@@ -1,8 +1,8 @@
-Here is a list of bugs we found in the refactoring engines of Eclipse and other popular Java IDEs. All test cases were evaluated on Eclipse 3.3.1, JBuilder 2007, NetBeans 6.0, IntelliJ 8.0, and JDeveloper 11g.
+Here is a list of bugs we found in the refactoring engines of Eclipse and other popular Java IDEs. All test cases were evaluated on Eclipse 3.3.1, JBuilder 2007, !NetBeans 6.0, IntelliJ 8.0, and JDeveloper 11g.
 
 <h2>Bug in Rename Package</h2>
 <ol>
-<li> <b>No Check for Name Clash with Class</b>:<br><br>
+<li> <b>No Check for Name Clash with Class</b>:
 
   Test case:
   <code lang="java">
@@ -17,17 +17,17 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   resulting in uncompilable code due to name clash with class 
   `p.r`. When undoing the refactoring, the error marker is
   not removed; it vanishes only after further editing and saving the files
-  involved.<br>
+  involved.
 
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=208200">Eclipse Bugs</a>.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=208200">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20574">IntelliJ</a> (fix announced), and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20574">IntelliJ</a> (fix announced), and JDeveloper.
 
 
 
 <h2>Bugs in Rename Type</h2>
 <ol>
-<li> <b>Renaming Top Level Type Leads to Undiagnosed Shadowing of Library Type</b>:<br><br>
+<li> <b>Renaming Top Level Type Leads to Undiagnosed Shadowing of Library Type</b>:
 
   Test case:
   <code lang="java">
@@ -50,13 +50,13 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
   Renaming `MyThread` to `Thread` shadows the library class `java.lang.Thread`, which
   is not noticed by Eclipse. Thus the program changes from printing `23` before refactoring to printing
-  `42` after.<br>
+  `42` after.
 
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=222848">Eclipse Bugs</a>, turned out to be a duplicate.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=222848">Eclipse Bugs</a>, turned out to be a duplicate.
 
-  The same bug also occurs in JBuilder, NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20603">IntelliJ</a>, and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20603">IntelliJ</a>, and JDeveloper.
 
-<li> <b>Renaming Member Type in Superclass Leads to Undiagnosed Shadowing</b>:<br><br>
+<li> <b>Renaming Member Type in Superclass Leads to Undiagnosed Shadowing</b>:
 
   Test case:
   <code lang="java">
@@ -81,13 +81,13 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   `A` to `C` does not notice that the
   reference `C.x` in method `C.m` will now refer to 
   `A.C.x` instead of `D.C.x`, so the resulting
-  program prints `42`.<br>
+  program prints `42`.
 
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220781">Eclipse Bugs</a>.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220781">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20634">IntelliJ</a>, and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20634">IntelliJ</a>, and JDeveloper.
 
-<li><b>Renaming a Member Type Does Not Check for Shadowing of Inherited Member Types</b>:<br><br>
+<li><b>Renaming a Member Type Does Not Check for Shadowing of Inherited Member Types</b>:
 
   Test case:
   <code lang="java">
@@ -113,14 +113,14 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   </code>
 
   which does not compile. It is possible to construct examples where the
-  resulting code would still compile, but have a different behaviour.<br>
+  resulting code would still compile, but have a different behaviour.
 
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=222045">Eclipse Bugs</a>.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=222045">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, NetBeans, JDeveloper, but not in IntelliJ.
+  The same bug also occurs in JBuilder, !NetBeans, JDeveloper, but not in IntelliJ.
 
 
-<li><b>Renaming a Type Does Not Check for Capture by Type Variable</b>:<br><br>
+<li><b>Renaming a Type Does Not Check for Capture by Type Variable</b>:
 
   Test case:
   <code lang="java">
@@ -158,18 +158,18 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   Note the capture of the argument type `A` by the type variable
   `B`:
   The program is not compilable, since `D&lt;String&gt;()` can no
-  longer be cast to `D&lt;A&gt;`, but only to `D&lt;String&gt;`.<br>
+  longer be cast to `D&lt;A&gt;`, but only to `D&lt;String&gt;`.
 
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220780">Eclipse Bugs</a>.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220780">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, NetBeans, JDeveloper, but not in IntelliJ.
+  The same bug also occurs in JBuilder, !NetBeans, JDeveloper, but not in IntelliJ.
 
 
 	
 
 <h2>Bug in Rename Variable</h2>
 <ol>
-<li><b>Renaming Field Can Shadow Static Import</b>:<br><br>
+<li><b>Renaming Field Can Shadow Static Import</b>:
 
   Test case:
   <code lang="java">
@@ -184,10 +184,10 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   </code>
 
   Renaming the field `myPI` to `PI` shadows the import from `java.lang.Math`.
-  This problem is correctly diagnosed by Eclipse and JBuilder, but not by NetBeans and JDeveloper. A
+  This problem is correctly diagnosed by Eclipse and JBuilder, but not by !NetBeans and JDeveloper. A
   <a href="http://www.jetbrains.net/jira/browse/IDEA-20665">slightly more complex example</a> fools IntelliJ.
 
-<li><b>Renaming Local Variable Can Lead to Shadowing By Field</b>:<br><br>
+<li><b>Renaming Local Variable Can Lead to Shadowing By Field</b>:
 
   Test case:
   <code lang="java">
@@ -211,20 +211,20 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   method `A.m` to `j` does not notice that the reference 
   in the `toString()` method of the anonymous class will now
   refer to the field `j`, so the resulting program prints 
-  `42`.<br>
+  `42`.
 	
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=213144">Eclipse Bugs</a>.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=213144">Eclipse Bugs</a>.
 
   The same bug also occurs in JBuilder, <a href="http://www.jetbrains.net/jira/browse/IDEA-20700">IntelliJ</a> (fixed), and JDeveloper, 
-  but not in NetBeans. If we instead try to
+  but not in !NetBeans. If we instead try to
   rename `j` to `i`, Eclipse and JBuilder both report the danger of shadowing, whereas
-  NetBeans and IntelliJ do not. JDeveloper does not implement this second renaming.
+  !NetBeans and IntelliJ do not. JDeveloper does not implement this second renaming.
 
 	
 
 <h2>Bug in Rename Method</h2>
 <ol>
-<li><b>Renaming Method Can Lead to Shadowing of Statically Imported Method</b>:<br><br>
+<li><b>Renaming Method Can Lead to Shadowing of Statically Imported Method</b>:
 
   Test case:
   <code lang="java">
@@ -240,17 +240,17 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 	  
   This prints `23`. Renaming the method `A.m` to 
   `valueOf` shadows the statically imported method 
-  `String.valueOf`, so the resulting program prints `42`.<br>
+  `String.valueOf`, so the resulting program prints `42`.
 
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220779">Eclipse Bugs</a>.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220779">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, NetBeans, and JDeveloper, but not in IntelliJ.
+  The same bug also occurs in JBuilder, !NetBeans, and JDeveloper, but not in IntelliJ.
 
 
 
 <h2>Bugs in Encapsulate Field</h2>
 <ol>
-<li> <b>Should Not Allow Encapsulating Fields in Interfaces</b>:<br><br>
+<li> <b>Should Not Allow Encapsulating Fields in Interfaces</b>:
 
    Test case:
    <code lang="java">
@@ -263,11 +263,11 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
    created. This is, however, not detected, resulting in uncompilable code.
 
    This bug was reported by someone else <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=34310">quite some time ago</a>,
-   but judged "not critical".<br>
+   but judged "not critical".
 
-   The same bug also occurs in JBuilder and JDeveloper, but not in NetBeans and IntelliJ.
+   The same bug also occurs in JBuilder and JDeveloper, but not in !NetBeans and IntelliJ.
 
-<li> <b>No Check for Method Hiding</b>:<br><br>
+<li> <b>No Check for Method Hiding</b>:
 
    Test case:
    <code lang="java">
@@ -280,14 +280,14 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
    When encapsulating field `C.i`, Eclipse generates a getter method
    `getI()` in class C which shadows the access in 
-   method `C.B.m()` and leads to uncompilable code.<br>
+   method `C.B.m()` and leads to uncompilable code.
 
 
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209315">Eclipse Bugs</a>, turned out to be a duplicate.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209315">Eclipse Bugs</a>, turned out to be a duplicate.
 
-  The same bug also occurs in JBuilder, NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20720">IntelliJ</a>, and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20720">IntelliJ</a>, and JDeveloper.
 
-<li> <b>No Check for Overloading Problems</b>:<br><br>
+<li> <b>No Check for Overloading Problems</b>:
 
    Test case:
    <code lang="java">
@@ -323,13 +323,13 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
      }
    </code>
 
-   This code compiles and prints `i == 42`.<br>
+   This code compiles and prints `i == 42`.
 
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209316">Eclipse Bugs</a>.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209316">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20745">IntelliJ</a>, and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20745">IntelliJ</a>, and JDeveloper.
 
-<li><b>No Check for Invalid Overloading</b>:<br><br>
+<li><b>No Check for Invalid Overloading</b>:
 
    Test case:
    <code lang="java">
@@ -345,18 +345,18 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
    `A.getI()` which cannot be overloaded by `B.getI()`, 
    resulting in a compiler error. The
    same kind of problem occurs if, say, `B.getI()` were
-   declared as having return type "float".<br>
+   declared as having return type "float".
 
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209317">Eclipse Bugs</a>, turned out to be a duplicate.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209317">Eclipse Bugs</a>, turned out to be a duplicate.
 
-  The same bug also occurs in JBuilder, NetBeans, IntelliJ, and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, IntelliJ, and JDeveloper.
 
 
 
 <h2>Bugs in Extract Method</h2>
 <ol>
 <li> Applying the Extract Method refactoring to the following selection results in 
-  a new method that fails to compile.<br>
+  a new method that fails to compile.
 
   Original program:
   <code lang="java">
@@ -413,10 +413,10 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   }
   </code>
 
-  Track this bug at <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109280">Eclipse Bugs</a>.<br>
-  <b>Note</b>: This bug was fixed in Eclipse 3.2 RC1. It does not occur in JBuilder, NetBeans, IntelliJ, and JDeveloper.
+  Track this bug at <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109280">Eclipse Bugs</a>.
+  <b>Note</b>: This bug was fixed in Eclipse 3.2 RC1. It does not occur in JBuilder, !NetBeans, IntelliJ, and JDeveloper.
 <li>Trying to apply the Extract Method refactoring on the following selection 
-  results in an unnecessary rejection.<br>
+  results in an unnecessary rejection.
 
   Original program: 
   <code lang="java">
@@ -467,11 +467,11 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
     return n;
   }
   </code>
-  Track this bug at <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109282">Eclipse Bugs</a>.<br>
+  Track this bug at <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109282">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, NetBeans, and JDeveloper, but not in IntelliJ.
+  The same bug also occurs in JBuilder, !NetBeans, and JDeveloper, but not in IntelliJ.
 
-<li><b>Liveness Analysis in Extract Method Is Not Precise Enough</b>:<br><br>
+<li><b>Liveness Analysis in Extract Method Is Not Precise Enough</b>:
 
     Test case:
     <code lang="java">
@@ -499,13 +499,13 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
     `y` to be live and passes it as a parameter to the
     newly created method. In fact, however, `y` is not live, 
     so the resulting code does not compile due to a violation of the 
-    definite assignment restriction.<br>
+    definite assignment restriction.
 
-    Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220777">Eclipse Bugs</a>.<br>
+    Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220777">Eclipse Bugs</a>.
 
-    The same bug also occurs in JBuilder and NetBeans, but not in IntelliJ and JDeveloper.
+    The same bug also occurs in JBuilder and !NetBeans, but not in IntelliJ and JDeveloper.
 
-<li><b>Local types are not handled correctly</b>:<br><br>
+<li><b>Local types are not handled correctly</b>:
 
     Test case:
     <code lang="java">
@@ -538,10 +538,10 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
     }
     </code>
 
-    which fails to compile.<br>
+    which fails to compile.
 
     The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20769">IntelliJ</a>.
-<li> <b>Incorrect dataflow analysis</b>:<br><br>
+<li> <b>Incorrect dataflow analysis</b>:
 
   Test case:
   <code lang="java">
@@ -594,14 +594,14 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   </code>
 
   Eclipse has `n` return the value of `x`, which is unnecessary, but not our main concern. More importantly, note that the
-  value printed in the `catch` clause is the unmodified value of `x`, hence the refactored program prints `42`.<br>
+  value printed in the `catch` clause is the unmodified value of `x`, hence the refactored program prints `42`.
 
   The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-21120">IntelliJ</a>, although it correctly diagnoses that the value of `x` does not need to be returned. The bug is fixed in the newest release.
 
 
 <h2>Bugs in Inline Local Variable</h2>
 <ol>
-<li> <b>Incorrect handling of references to final variables</b>:<br><br>
+<li> <b>Incorrect handling of references to final variables</b>:
 
   Test case:
   <code lang="java">
@@ -623,7 +623,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   </code>
 
   which fails to compile, since `j` is not final and hence inaccessible
-  from inside the anonymous class.<br>
+  from inside the anonymous class.
 
   The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20790">IntelliJ</a>.
 
@@ -632,7 +632,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 <h2>Bugs in Push Down Method</h2>
 Note: None of these example refactorings could be tested in JDeveloper.
 <ol> 
-<li> <b>Incorrect handling of `super` accesses</b>:<br><br>
+<li> <b>Incorrect handling of `super` accesses</b>:
    
    Test case:
    <code lang="java">
@@ -652,13 +652,13 @@ Note: None of these example refactorings could be tested in JDeveloper.
    	 
    This prints `23`. Pushing down `B.m` into 
    `C` just moves the method without any
-   adjustments, so the resulting program prints `42`.<br>
+   adjustments, so the resulting program prints `42`.
    
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211755">Eclipse Bugs</a>.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211755">Eclipse Bugs</a>.
 
-  The same bug occurs in JBuilder, NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20816">IntelliJ</a> (fixed).
+  The same bug occurs in JBuilder, !NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20816">IntelliJ</a> (fixed).
 
-<li> <b>Incorrect handling of field accesses</b>:<br><br>   
+<li> <b>Incorrect handling of field accesses</b>:   
 
    Test case:
    <code lang="java">
@@ -677,13 +677,13 @@ Note: None of these example refactorings could be tested in JDeveloper.
    This prints `23`. Pushing down `A.m` into 
    `B` just moves the method without any
 
-   adjustments, so the resulting program prints `42`.<br>
+   adjustments, so the resulting program prints `42`.
    
 
-   Reported as a comment to the previous bug.<br>
+   Reported as a comment to the previous bug.
 
-   The same bug occurs in JBuilder, NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20848">IntelliJ</a>.
-<li> <b>Incorrect Handling of Type Accesses</b>:<br><br>
+   The same bug occurs in JBuilder, !NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20848">IntelliJ</a>.
+<li> <b>Incorrect Handling of Type Accesses</b>:
    
    Test case:
    <code lang="java">
@@ -702,13 +702,13 @@ Note: None of these example refactorings could be tested in JDeveloper.
    This prints `23`. Pushing down `A.m` into 
    `B` just moves the method without any
    adjustments, so the resulting program prints `42`. 
-   A similar issue exists with `throws` clauses.<br>
+   A similar issue exists with `throws` clauses.
    
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211859">Eclipse Bugs</a>.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211859">Eclipse Bugs</a>.
 
-  The same bug occurs in JBuilder and NetBeans, but not in IntelliJ.
+  The same bug occurs in JBuilder and !NetBeans, but not in IntelliJ.
 
-<li><b>Incorrect Handling of Private Method Accesses</b>:<br><br>
+<li><b>Incorrect Handling of Private Method Accesses</b>:
 
    Test case:
    <code lang="java">
@@ -726,14 +726,14 @@ Note: None of these example refactorings could be tested in JDeveloper.
      
    This prints `23`. Pushing down `A.m` into 
    `B` just moves the method without any
-   adjustments, so the resulting program prints `42`.<br>
+   adjustments, so the resulting program prints `42`.
    
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211860">Eclipse Bugs</a>.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211860">Eclipse Bugs</a>.
 
-  The same bug occurs in JBuilder, NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20873">IntelliJ</a>.
+  The same bug occurs in JBuilder, !NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20873">IntelliJ</a>.
 
 
-<li><b>No Check for References to Moved Method</b>:<br><br>
+<li><b>No Check for References to Moved Method</b>:
    
    Test case:
    <code lang="java">
@@ -749,9 +749,9 @@ Note: None of these example refactorings could be tested in JDeveloper.
    
    Pushing down `A.m` into `B` does not detect the 
    reference to `A.m` in `B.main`, so
-   the resulting program fails to compile.<br>
+   the resulting program fails to compile.
    
-  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211861">Eclipse Bugs</a>, turned out to be a duplicate.<br>
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211861">Eclipse Bugs</a>, turned out to be a duplicate.
 
-  The same bug also occurs in JBuilder and NetBeans, but not in IntelliJ.
+  The same bug also occurs in JBuilder and !NetBeans, but not in IntelliJ.
 
