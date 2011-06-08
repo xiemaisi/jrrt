@@ -1,0 +1,758 @@
+Here is a list of bugs we found in the refactoring engines of Eclipse and other popular Java IDEs. All test cases were evaluated on Eclipse 3.3.1, JBuilder 2007, NetBeans 6.0, IntelliJ 8.0, and JDeveloper 11g.
+
+<h2>Bug in Rename Package</h2>
+<ol>
+<li> <b>No Check for Name Clash with Class</b>:<br><br>
+
+  Test case:
+  <pre>
+    package p;
+    class r { }
+    ...
+    package p.q; 
+    class s { }
+  </pre>
+
+  Eclipse allows renaming package <code>p.q</code> to <code>p.r</code>, 
+  resulting in uncompilable code due to name clash with class 
+  <class>p.r</code>. When undoing the refactoring, the error marker is
+  not removed; it vanishes only after further editing and saving the files
+  involved.<br>
+
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=208200">Eclipse Bugs</a>.<br>
+
+  The same bug also occurs in JBuilder, NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20574">IntelliJ</a> (fix announced), and JDeveloper.
+</li>
+</ol>
+
+<h2>Bugs in Rename Type</h2>
+<ol>
+<li> <b>Renaming Top Level Type Leads to Undiagnosed Shadowing of Library Type</b>:<br><br>
+
+  Test case:
+  <pre>
+  public class A {
+    public static void main(String[] args) {
+      new Thread() {
+        public void run() {
+          System.out.println(23);
+	}
+      }.start();
+    }
+  }
+
+  class MyThread {
+    public void start() {
+      System.out.println(42);
+    }
+  }
+  </pre>
+
+  Renaming <code>MyThread</code> to <code>Thread</code> shadows the library class <code>java.lang.Thread</code>, which
+  is not noticed by Eclipse. Thus the program changes from printing <code>23</code> before refactoring to printing
+  <code>42</code> after.<br>
+
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=222848">Eclipse Bugs</a>, turned out to be a duplicate.<br>
+
+  The same bug also occurs in JBuilder, NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20603">IntelliJ</a>, and JDeveloper.
+</li>
+<li> <b>Renaming Member Type in Superclass Leads to Undiagnosed Shadowing</b>:<br><br>
+
+  Test case:
+  <pre>
+    class A {
+      static class B {
+        static int x = 42;
+      }
+    }
+	  
+    public class D {
+      static class C extends A {
+        static int x = 23;
+	static int m() { return C.x; }
+      }
+      public static void main(String[] args) {
+	System.out.println(C.m());
+      }
+    }
+  </pre>
+	  
+  This prints <code>23</code>. Renaming the class <code>B</code> inside 
+  <code>A</code> to <code>C</code> does not notice that the
+  reference <code>C.x</code> in method <code>C.m</code> will now refer to 
+  <code>A.C.x</code> instead of <code>D.C.x</code>, so the resulting
+  program prints <code>42</code>.<br>
+
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220781">Eclipse Bugs</a>.<br>
+
+  The same bug also occurs in JBuilder, NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20634">IntelliJ</a>, and JDeveloper.
+</li>
+<li><b>Renaming a Member Type Does Not Check for Shadowing of Inherited Member Types</b>:<br><br>
+
+  Test case:
+  <pre>
+  import java.util.Map;
+
+  abstract class MyMap implements Map {
+    abstract static class MyEntry implements Entry {
+    }
+  }
+  </pre>
+
+  Renaming the member class <code>MyEntry</code> to <code>Entry</code>
+  does not notice that this shadows the member type <code>Map.Entry</code>.
+  The resulting program is
+
+  <pre>
+  import java.util.Map;
+
+  abstract class MyMap implements Map {
+    abstract static class Entry implements Entry {
+    }
+  }
+  </pre>
+
+  which does not compile. It is possible to construct examples where the
+  resulting code would still compile, but have a different behaviour.<br>
+
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=222045">Eclipse Bugs</a>.<br>
+
+  The same bug also occurs in JBuilder, NetBeans, JDeveloper, but not in IntelliJ.
+
+</li>
+<li><b>Renaming a Type Does Not Check for Capture by Type Variable</b>:<br><br>
+
+  Test case:
+  <pre>
+  public class A {
+    public static void main(String[] args) {
+      C&lt;A&gt; b = new D&lt;String&gt;();
+    }
+  }
+  class C&lt;T&gt; { }
+  class D&lt;B&gt; extends C&lt;A&gt; { }
+  </pre>
+
+
+
+
+
+
+
+
+
+
+
+
+  Renaming class <code>A</code> to <code>B</code> yields the following output:
+  <pre>
+  public class B {
+    public static void main(String[] args) {
+      C&lt;B&gt; b = new D&lt;String&gt;();
+    }
+  }
+  class C&lt;T&gt; { }
+  class D&lt;B&gt; extends C&lt;B&gt; { }
+  </pre>
+
+  Note the capture of the argument type <code>A</code> by the type variable
+  <code>B</code>:
+  The program is not compilable, since <code>D&lt;String&gt;()</code> can no
+  longer be cast to <code>D&lt;A&gt;</code>, but only to <code>D&lt;String&gt;</code>.<br>
+
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220780">Eclipse Bugs</a>.<br>
+
+  The same bug also occurs in JBuilder, NetBeans, JDeveloper, but not in IntelliJ.
+</li>
+</ol>
+	
+
+<h2>Bug in Rename Variable</h2>
+<ol>
+<li><b>Renaming Field Can Shadow Static Import</b>:<br><br>
+
+  Test case:
+  <pre>
+  import static java.lang.Math.PI;
+
+  class Indiana {
+    static double myPI = 3.2;
+    static double circle_area(double r) {
+      return PI*r*r;
+    }
+  }
+  </pre>
+
+  Renaming the field <code>myPI</code> to <code>PI</code> shadows the import from <code>java.lang.Math</code>.
+  This problem is correctly diagnosed by Eclipse and JBuilder, but not by NetBeans and JDeveloper. A
+  <a href="http://www.jetbrains.net/jira/browse/IDEA-20665">slightly more complex example</a> fools IntelliJ.
+</li>
+<li><b>Renaming Local Variable Can Lead to Shadowing By Field</b>:<br><br>
+
+  Test case:
+  <pre>
+  public class A {
+    Object m() {
+      final int i = 23;
+      return new Object() {
+        int j = 42;
+        public String toString() {
+          return i+"";
+        }
+      };
+    }
+    public static void main(String[] args) {
+      System.out.println(new A().m());
+    }
+  }
+  </pre>
+
+  This prints <code>23</code>. Renaming the local variable <code>i</code> in 
+  method <code>A.m</code> to <code>j</code> does not notice that the reference 
+  in the <code>toString()</code> method of the anonymous class will now
+  refer to the field <code>j</code>, so the resulting program prints 
+  <code>42</code>.<br>
+	
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=213144">Eclipse Bugs</a>.<br>
+
+  The same bug also occurs in JBuilder, <a href="http://www.jetbrains.net/jira/browse/IDEA-20700">IntelliJ</a> (fixed), and JDeveloper, 
+  but not in NetBeans. If we instead try to
+  rename <code>j</code> to <code>i</code>, Eclipse and JBuilder both report the danger of shadowing, whereas
+  NetBeans and IntelliJ do not. JDeveloper does not implement this second renaming.
+</li>
+</ol>	
+
+<h2>Bug in Rename Method</h2>
+<ol>
+<li><b>Renaming Method Can Lead to Shadowing of Statically Imported Method</b>:<br><br>
+
+  Test case:
+  <pre>
+    import static java.lang.String.*;
+
+    public class A {
+      static String m(int i) { return "42"; }
+      public static void main(String[] args) {
+        System.out.println(valueOf(23));
+      }
+    }
+  </pre>
+	  
+  This prints <code>23</code>. Renaming the method <code>A.m</code> to 
+  <code>valueOf</code> shadows the statically imported method 
+  <code>String.valueOf</code>, so the resulting program prints <code>42</code>.<br>
+
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220779">Eclipse Bugs</a>.<br>
+
+  The same bug also occurs in JBuilder, NetBeans, and JDeveloper, but not in IntelliJ.
+</li>
+</ol>
+
+<h2>Bugs in Encapsulate Field</h2>
+<ol>
+<li> <b>Should Not Allow Encapsulating Fields in Interfaces</b>:<br><br>
+
+   Test case:
+   <pre>
+     interface A {
+       int f = 23;
+     }
+   </pre>
+
+   Encapsulating field <code>A.f</code> should fail, since it is in an interface and hence no getter method can be
+   created. This is, however, not detected, resulting in uncompilable code.
+
+   This bug was reported by someone else <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=34310">quite some time ago</a>,
+   but judged "not critical".<br>
+
+   The same bug also occurs in JBuilder and JDeveloper, but not in NetBeans and IntelliJ.
+</li>
+<li> <b>No Check for Method Hiding</b>:<br><br>
+
+   Test case:
+   <pre>
+     class A {
+       void getI(String s) { }
+
+       class C { class B { void m() { getI(""); } } private int i; }
+     }
+   </pre>
+
+   When encapsulating field <code>C.i</code>, Eclipse generates a getter method
+   <code>getI()</code> in class C which shadows the access in 
+   method <code>C.B.m()</code> and leads to uncompilable code.<br>
+
+
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209315">Eclipse Bugs</a>, turned out to be a duplicate.<br>
+
+  The same bug also occurs in JBuilder, NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20720">IntelliJ</a>, and JDeveloper.
+</li>
+<li> <b>No Check for Overloading Problems</b>:<br><br>
+
+   Test case:
+   <pre>
+     class A {
+       public int i;
+     }
+     class B extends A {
+       public int getI() { return 42; }
+       public static void main(String[] args) {
+         A a = new B();
+	 a.i = 23; 
+	 System.out.println("i == "+a.i);
+       }
+     }
+   </pre>
+
+   This code prints <code>i == 23</code>, as it should. Now we can encapsulate 
+   field <code>A.i</code>, yielding the following code:
+
+   <pre>
+     class A {
+       private int i;
+       public void setI(int i) { this.i = i; }
+       public int getI() { return i; }
+     }
+
+     class B extends A {
+       public int getI() { return 42; }
+       public static void main(String[] args) {
+         A a = new B();
+	 a.setI(23);
+	 System.out.println("i == "+a.getI());
+     }
+   </pre>
+
+   This code compiles and prints <code>i == 42</code>.<br>
+
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209316">Eclipse Bugs</a>.<br>
+
+  The same bug also occurs in JBuilder, NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20745">IntelliJ</a>, and JDeveloper.
+</li>
+<li><b>No Check for Invalid Overloading</b>:<br><br>
+
+   Test case:
+   <pre>
+     class A {
+       public int i;
+     }
+     class B extends A {
+       private int getI() { return 42; }
+     }
+   </pre>
+
+   Encapsulating field <code>A.i</code> generates a public getter method 
+   <code>A.getI()</code> which cannot be overloaded by <code>B.getI()</code>, 
+   resulting in a compiler error. The
+   same kind of problem occurs if, say, <code>B.getI()</code> were
+   declared as having return type "float".<br>
+
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209317">Eclipse Bugs</a>, turned out to be a duplicate.<br>
+
+  The same bug also occurs in JBuilder, NetBeans, IntelliJ, and JDeveloper.
+</li>
+</ol>
+
+<h2>Bugs in Extract Method</h2>
+<ol>
+<li> Applying the Extract Method refactoring to the following selection results in 
+  a new method that fails to compile.<br>
+
+  Original program:
+  <pre>
+  private int f(boolean b1, boolean b2) {
+    int n = 0;
+    int i = 0;
+    // Extract Method from here
+    if (b1)
+      i = 1;
+    if (b2)
+      n = n + i;
+    // to here
+    return n;
+  }
+  </pre>
+  Applying Extract Method on the selected code (signalled by the comments)
+  results with the following code: 
+  <pre>
+  private int f(boolean b1, boolean b2) {
+    int n = 0;
+    int i = 0;
+    n = newMethod(b1, b2, n);
+    return n;
+  }
+
+  private int newMethod(boolean b1, boolean b2, int n) {
+    int i;
+    if (b1)
+      i = 1;
+    if (b2)
+      n = n + i;
+    return n;
+  }
+  </pre>
+  Problem: Eclipse did not identify that the local variable i should be sent as 
+  a parameter. The program doesn't compile anymore, because in the statement <code>n = 
+  n + i</code>; in the new method, "the local variable <code>i</code> may not have been initialized".
+
+  Instead, the refactored source should look like this:
+  <pre>
+  private int f(boolean b1, boolean b2) {
+    int n = 0;
+    int i = 0;
+    n = newMethod(b1, b2, n, i);
+    return n;
+  }
+
+  private int newMethod(boolean b1, boolean b2, int n, int i) {
+    if (b1)
+      i = 1;
+    if (b2)
+      n = n + i;
+    return n;
+  }
+  </pre>
+
+  Track this bug at <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109280">Eclipse Bugs</a>.<br>
+  <b>Note</b>: This bug was fixed in Eclipse 3.2 RC1. It does not occur in JBuilder, NetBeans, IntelliJ, and JDeveloper.</li>
+<li>Trying to apply the Extract Method refactoring on the following selection 
+  results in an unnecessary rejection.<br>
+
+  Original program: 
+  <pre>
+  private int g(boolean b) {
+    int n = 10;
+    int i = 0;
+    while (i < n) {
+      if (b) {
+        // Extract Method from here
+        i++;
+        n -= i;
+	// to here
+        break;
+      }
+      else i++;
+    }
+    return n;
+  }
+  </pre>
+
+  Applying Extract Method on the selected code (signalled by the comments)
+  results in a rejection with the message: "Ambiguous return value: selected 
+  block contains more than one assignment to local variable".
+
+  In fact, because of the <code>break</code> statement, only the modified local variable <code>n</code> 
+  should be returned. The local variable <code>i</code> will never be relevant on return from 
+  the extracted method. As a result, variable <code>i</code> can be localized in the new 
+  method.
+
+  The refactored source should look like this:
+  <pre>
+  private int g(boolean b) {
+    int n = 10;
+    int i = 0;
+    while (i < n) {
+      if (b) {
+        n = newMethod(i, n);
+        break;
+      }
+      else i++;
+    }
+    return n;
+  }
+
+  private int newMethod(int i, int n) {
+    i++;
+    n -= i;
+    return n;
+  }
+  </pre>
+  Track this bug at <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109282">Eclipse Bugs</a>.<br>
+
+  The same bug also occurs in JBuilder, NetBeans, and JDeveloper, but not in IntelliJ.
+</li>
+<li><b>Liveness Analysis in Extract Method Is Not Precise Enough</b>:<br><br>
+
+    Test case:
+    <pre>
+    public class A {
+      void m() {
+        int y;
+        int z;
+        //from
+	try {
+	  if(3==3)
+	    y = 1;
+	  else
+	    throw new Exception("boo");
+	} catch(Throwable t) {
+	  y=2;
+	}
+	z=y;
+        //to
+      }
+    }
+    </pre>
+	  
+    If we extract the statements between <code>//from</code> and 
+    <code>//to</code> into a method, Eclipse infers the local variable 
+    <code>y</code> to be live and passes it as a parameter to the
+    newly created method. In fact, however, <code>y</code> is not live, 
+    so the resulting code does not compile due to a violation of the 
+    definite assignment restriction.<br>
+
+    Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220777">Eclipse Bugs</a>.<br>
+
+    The same bug also occurs in JBuilder and NetBeans, but not in IntelliJ and JDeveloper.
+</li>
+<li><b>Local types are not handled correctly</b>:<br><br>
+
+    Test case:
+    <pre>
+    public class A {
+      void m() {
+        // from
+        class X { }
+        X x;
+        // to
+        x = null;
+      }
+    }
+    </pre>
+
+    If we extract the statements between <code>//from</code> and 
+    <code>//to</code> into a method <code>n</code> in Eclipse, we get
+
+    <pre>
+    public class A {
+      void m() {
+        X x;
+        n();
+        x = null;
+      }
+
+      void n() {
+        class X { }
+        X x;
+      }
+    }
+    </pre>
+
+    which fails to compile.<br>
+
+    The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20769">IntelliJ</a>.</li>
+<li> <b>Incorrect dataflow analysis</b>:<br><br>
+
+  Test case:
+  <pre>
+  public class A {
+    void m(boolean b) {
+      int x = 42;
+      try {
+        // from
+        if(b) {
+          x = 23;
+          throw new Exception();
+        }
+        // to
+      } catch(Exception e) {
+        System.out.println(x);
+      }
+    }
+
+    public static void main(String[] args) {
+        new A().m(true);
+    }
+  }
+  </pre>
+
+  This program prints <code>23</code>. Extracting the statement between the comments to a method <code>n</code> in Eclipse yields
+
+  <pre>
+  public class A {
+    void m(boolean b) {
+      int x = 42;
+      try {
+        x = n(b, x);
+      } catch(Exception e) {
+        System.out.println(x);
+      }
+    }
+
+    private int n(boolean b, int x) throws Exception {
+      if(b) {
+	x = 23;
+	throw new Exception();
+      }
+      return x;
+    }
+
+    public static void main(String[] args) {
+        new A().m(true);
+    }
+  }
+  </pre>
+
+  Eclipse has <code>n</code> return the value of <code>x</code>, which is unnecessary, but not our main concern. More importantly, note that the
+  value printed in the <code>catch</code> clause is the unmodified value of <code>x</code>, hence the refactored program prints <code>42</code>.<br>
+
+  The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-21120">IntelliJ</a>, although it correctly diagnoses that the value of <code>x</code> does not need to be returned. The bug is fixed in the newest release.</li>
+</ol>
+
+<h2>Bugs in Inline Local Variable</h2>
+<ol>
+<li> <b>Incorrect handling of references to final variables</b>:<br><br>
+
+  Test case:
+  <pre>
+  class A {
+    void m() {
+      int j = 23;
+      final int i = j;
+      new Object() {
+	{ System.out.println(i); }
+      };
+    }
+  }
+  </pre>
+
+  Inlining variable <code>i</code> replaces the initializer of the anonymous class
+  with
+  <pre>
+        { System.out.println(j); }
+  </pre>
+
+  which fails to compile, since <code>j</code> is not final and hence inaccessible
+  from inside the anonymous class.<br>
+
+  The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20790">IntelliJ</a>.
+</li>
+</ol>
+
+<h2>Bugs in Push Down Method</h2>
+Note: None of these example refactorings could be tested in JDeveloper.
+<ol> 
+<li> <b>Incorrect handling of <code>super</code> accesses</b>:<br><br>
+   
+   Test case:
+   <pre>
+     class A {
+       void k() { System.out.println(23); }
+     }
+     class B extends A {
+       void m() { super.k(); }
+       void k() { System.out.println(42); } 
+     }
+     class C extends B {
+       public static void main(String[] args) {
+         new C().m();
+       }
+     }
+   </pre>
+   	 
+   This prints <code>23</code>. Pushing down <code>B.m</code> into 
+   <code>C</code> just moves the method without any
+   adjustments, so the resulting program prints <code>42</code>.<br>
+   
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211755">Eclipse Bugs</a>.<br>
+
+  The same bug occurs in JBuilder, NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20816">IntelliJ</a> (fixed).
+</li>
+<li> <b>Incorrect handling of field accesses</b>:<br><br>   
+
+   Test case:
+   <pre>
+     class A {
+       protected int x = 23;
+       void m() { System.out.println(x); }
+     }
+     class B extends A {
+       protected int x = 42;
+       public static void main(String[] args) {
+         new B().m();
+       }
+     }
+   </pre>
+     
+   This prints <code>23</code>. Pushing down <code>A.m</code> into 
+   <code>B</code> just moves the method without any
+
+   adjustments, so the resulting program prints <code>42</code>.<br>
+   
+
+   Reported as a comment to the previous bug.<br>
+
+   The same bug occurs in JBuilder, NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20848">IntelliJ</a>.</li>
+<li> <b>Incorrect Handling of Type Accesses</b>:<br><br>
+   
+   Test case:
+   <pre>
+     class A {
+       class B { public B() { System.out.println(23); } }
+       B m() { return new B(); }
+     }
+     class C extends A {
+       class B { public B() { System.out.println(42); } }
+       public static void main(String[] args) {
+         new C().m();
+       }
+     }
+   </pre>
+     
+   This prints <code>23</code>. Pushing down <code>A.m</code> into 
+   <code>B</code> just moves the method without any
+   adjustments, so the resulting program prints <code>42</code>. 
+   A similar issue exists with <code>throws</code> clauses.<br>
+   
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211859">Eclipse Bugs</a>.<br>
+
+  The same bug occurs in JBuilder and NetBeans, but not in IntelliJ.
+</li>
+<li><b>Incorrect Handling of Private Method Accesses</b>:<br><br>
+
+   Test case:
+   <pre>
+     class A {
+       private void k() { System.out.println(23); }
+       void m() { k(); }
+     }
+     class B extends A {
+       protected void k() { System.out.println(42); }
+       public static void main(String[] args) {
+         new B().m();
+       }
+     }
+   </pre>
+     
+   This prints <code>23</code>. Pushing down <code>A.m</code> into 
+   <code>B</code> just moves the method without any
+   adjustments, so the resulting program prints <code>42</code>.<br>
+   
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211860">Eclipse Bugs</a>.<br>
+
+  The same bug occurs in JBuilder, NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20873">IntelliJ</a>.
+</li>
+
+<li><b>No Check for References to Moved Method</b>:<br><br>
+   
+   Test case:
+   <pre>
+     class A {
+       void m() { }
+     }
+     class B extends A {
+       public static void main(String[] args) {
+         new A().m();
+       }
+     }
+   </pre>
+   
+   Pushing down <code>A.m</code> into <code>B</code> does not detect the 
+   reference to <code>A.m</code> in <code>B.main</code>, so
+   the resulting program fails to compile.<br>
+   
+  Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211861">Eclipse Bugs</a>, turned out to be a duplicate.<br>
+
+  The same bug also occurs in JBuilder and NetBeans, but not in IntelliJ.
+</li>
+</ol>
