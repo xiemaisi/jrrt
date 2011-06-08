@@ -15,7 +15,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
   Eclipse allows renaming package `p.q` to `p.r`, 
   resulting in uncompilable code due to name clash with class 
-  <class>p.r`. When undoing the refactoring, the error marker is
+  `p.r`. When undoing the refactoring, the error marker is
   not removed; it vanishes only after further editing and saving the files
   involved.<br>
 
