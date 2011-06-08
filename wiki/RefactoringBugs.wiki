@@ -1,6 +1,6 @@
 Here is a list of bugs we found in the refactoring engines of Eclipse and other popular Java IDEs. All test cases were evaluated on Eclipse 3.3.1, JBuilder 2007, !NetBeans 6.0, IntelliJ 8.0, and JDeveloper 11g.
 
-<h2>Bug in Rename Package</h2>
+= Bug in Rename Package =
 <ol>
 <li> <b>No Check for Name Clash with Class</b>:
 
@@ -22,9 +22,8 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=208200">Eclipse Bugs</a>.
 
   The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20574">IntelliJ</a> (fixed), and JDeveloper.
-</ol>
 
-<h2>Bugs in Rename Type</h2>
+= Bugs in Rename Type =
 <ol>
 <li> <b>Renaming Top Level Type Leads to Undiagnosed Shadowing of Library Type</b>:
 
@@ -166,7 +165,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
 	
 
-<h2>Bug in Rename Variable</h2>
+= Bug in Rename Variable =
 <ol>
 <li><b>Renaming Field Can Shadow Static Import</b>:
 
@@ -221,7 +220,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
 	
 
-<h2>Bug in Rename Method</h2>
+= Bug in Rename Method =
 <ol>
 <li><b>Renaming Method Can Lead to Shadowing of Statically Imported Method</b>:
 
@@ -247,7 +246,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
 
 
-<h2>Bugs in Encapsulate Field</h2>
+= Bugs in Encapsulate Field =
 <ol>
 <li> <b>Should Not Allow Encapsulating Fields in Interfaces</b>:
 
@@ -352,7 +351,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
 
 
-<h2>Bugs in Extract Method</h2>
+= Bugs in Extract Method =
 <ol>
 <li> Applying the Extract Method refactoring to the following selection results in a new method that fails to compile.
 
@@ -596,7 +595,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-21120">IntelliJ</a>, although it correctly diagnoses that the value of `x` does not need to be returned. The bug is fixed in the newest release.
 
 
-<h2>Bugs in Inline Local Variable</h2>
+= Bugs in Inline Local Variable =
 <ol>
 <li> <b>Incorrect handling of references to final variables</b>:
 
@@ -626,7 +625,7 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
 
 
 
-<h2>Bugs in Push Down Method</h2>
+= Bugs in Push Down Method =
 Note: None of these example refactorings could be tested in JDeveloper.
 <ol> 
 <li> <b>Incorrect handling of `super` accesses</b>:
