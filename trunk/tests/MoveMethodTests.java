@@ -91,7 +91,6 @@ public class MoveMethodTests extends TestCase {
 			md.doMoveTo(fd, true, true /*false, false,*/, true);
 			assertEquals("<failure>", in.toString());
 		} catch(RefactoringException rfe) {
-			rfe.printStackTrace();
 		}
 		if (AllTests.TEST_UNDO) { Program.undoAll(); in.flushCaches(); }
 		if (AllTests.TEST_UNDO) assertEquals(originalProgram, in.toString());
