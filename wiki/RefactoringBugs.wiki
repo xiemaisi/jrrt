@@ -126,11 +126,11 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   {{{
   public class A {
     public static void main(String[] args) {
-      C&lt;A&gt; b = new D&lt;String&gt;();
+      C<A> b = new D<String>();
     }
   }
-  class C&lt;T&gt; { }
-  class D&lt;B&gt; extends C&lt;A&gt; { }
+  class C<T> { }
+  class D<B> extends C<A> { }
   }}}
 
 
@@ -148,17 +148,17 @@ Here is a list of bugs we found in the refactoring engines of Eclipse and other 
   {{{
   public class B {
     public static void main(String[] args) {
-      C&lt;B&gt; b = new D&lt;String&gt;();
+      C<B> b = new D<String>();
     }
   }
-  class C&lt;T&gt; { }
-  class D&lt;B&gt; extends C&lt;B&gt; { }
+  class C<T> { }
+  class D<B> extends C<B> { }
   }}}
 
   Note the capture of the argument type `A` by the type variable
   `B`:
-  The program is not compilable, since `D&lt;String&gt;()` can no
-  longer be cast to `D&lt;A&gt;`, but only to `D&lt;String&gt;`.
+  The program is not compilable, since `D<String>()` can no
+  longer be cast to `D<A>`, but only to `D<String>`.
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220780">Eclipse Bugs</a>.
 
