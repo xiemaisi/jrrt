@@ -1,5 +1,7 @@
 Here is a list of bugs we found in the refactoring engines of Eclipse and other popular Java IDEs. All test cases were evaluated on Eclipse 3.3.1, JBuilder 2007, !NetBeans 6.0, IntelliJ 8.0, and JDeveloper 11g.
 
+This list was started by Ran Ettinger and Mathieu Verbaere; in its current form it is due to Torbjörn Ekman and Max Schäfer.
+
 = Bug in Rename Package =
 <ol>
 <li> <b>No Check for Name Clash with Class</b>:
@@ -750,4 +752,3 @@ Note: None of these example refactorings could be tested in JDeveloper.
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211861">Eclipse Bugs</a>, turned out to be a duplicate.
 
   The same bug also occurs in JBuilder and !NetBeans, but not in IntelliJ.
-
