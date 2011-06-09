@@ -25,6 +25,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20574">IntelliJ</a> (fixed), and JDeveloper.
 
+
 = Bugs in Rename Type =
 <ol>
 <li> <b>Renaming Top Level Type Leads to Undiagnosed Shadowing of Library Type</b>:
