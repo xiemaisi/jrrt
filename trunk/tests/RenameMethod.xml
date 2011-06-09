@@ -1423,4 +1423,35 @@ class C  {
   <result mayfail="yes">
   </result>
 </testcase>
+<testcase name="test39">
+  <refactoring>
+    <rename newname="n">
+      <methodref host="A.C" signature="m()"/>
+    </rename>
+  </refactoring>
+  <program>
+    <cu name="A.java">
+class A  {
+  private void n() { }
+  class C extends A {
+    void m() { }
+    { n(); }
+  }
+}
+    </cu>
+  </program>
+  <result>
+    <program>
+      <cu name="A.java">
+class A  {
+  private void n() { }
+  class C extends A {
+    void n() { }
+    { A.this.n(); }
+  }
+}
+      </cu>
+    </program>
+  </result>
+</testcase>
 </testsuite>
