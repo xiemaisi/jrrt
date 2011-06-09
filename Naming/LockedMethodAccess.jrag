@@ -160,10 +160,13 @@ aspect LockedMethodAccess {
 					} else
 						return qual!=null ? parentDot() : this;
 			} else if(qual != null && (qual.isThisAccess() || qual.isSuperAccess())) {
-				acc = parentDot().accessMethod(target);
+				// throw away the qualifier and try again
+				AbstractDot parent = parentDot();
+				acc = parent.accessMethod(target);
 				if(acc != null) {
 					this.flushCaches();
-					return (Access) replace(parentDot()).with(acc.eliminate(this, null, enclosingType(), isMonoCall, inStaticContext(), (List<Expr>) getArgs().fullCopyAndDetach()));
+					Access newAcc = acc.eliminate(this, null, enclosingType(), isMonoCall, inStaticContext(), (List<Expr>) getArgs().fullCopyAndDetach());
+					return (Access) replace(parent).with(newAcc);
 				}
 			}
 			throw new RefactoringException("cannot access method "+target.name());

@@ -676,4 +676,24 @@ public class PushDownMethodTests extends TestCase {
     			"  }" +
     			"}")));
     }
+    
+    public void test44() {
+    	testSucc(Program.fromClasses(
+    			"class A {" +
+    			"  void m() {" +
+    			"    this.p();" +
+    			"  }" +
+    			"  private void p() { }" +
+    			"  class C extends A { }" +
+    			"}"),
+    			Program.fromClasses(
+    			"class A {" +
+    			"  private void p() { }" +
+    			"  class C extends A {" +
+    			"    void m() {" +
+    			"      p();" +
+    			"    }" +
+    			"  }" +
+    			"}"));
+    }
 }
