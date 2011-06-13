@@ -696,4 +696,38 @@ public class PushDownMethodTests extends TestCase {
     			"  }" +
     			"}"));
     }
+
+    // interesting little corner case: B doesn't inherit A.m, so pushing m down makes it disappear
+    // note that if we were to push A.m into B, it would now override Super.m, which it didn't before
+    public void test45() {
+    	testSucc(Program.fromCompilationUnits(
+    			new RawCU("Super.java",
+    			"package p;" +
+    			"public class Super {" +
+    			"  void m() { }" +
+    			"}"),
+    			new RawCU("A.java",
+    			"package q;" +
+    			"public class A extends p.Super {" +
+    			"  void m() { }" +
+    			"}"),
+    			new RawCU("B.java",
+    			"package p;" +
+    			"class B extends q.A {" +
+    			"}")),
+    			Program.fromCompilationUnits(
+    			new RawCU("Super.java",
+    			"package p;" +
+    			"public class Super {" +
+    			"  void m() { }" +
+    			"}"),
+    			new RawCU("A.java",
+    			"package q;" +
+    			"public class A extends p.Super {" +
+    			"}"),
+    			new RawCU("B.java",
+    			"package p;" +
+    			"class B extends q.A {" +
+    			"}")));
+    	}
 }
