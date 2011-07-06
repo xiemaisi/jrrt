@@ -19,10 +19,16 @@ recent versions of Eclipse are implemented.
 Building:
 =========
 JRRT depends on the JastAddJ compiler, specifically the
-Java1.4Frontend and Java1.5Frontend components. These can be
-downloaded from http://jastadd.org/web/jastaddj/. It also depends on
-parts of the JastAddJ control flow package, to be found at
-http://jastadd.org/web/jastaddj/extensions.php.
+Java1.4Frontend and Java1.5Frontend components; see
+http://jastadd.org/web/jastaddj/ for information on how to obtain 
+them. 
+
+It also depends on parts of the JastAddJ control flow package, which
+is available from svn under
+
+  http://svn.cs.lth.se/svn/jastadd-oxford/projects/trunk/JastAddExtensions/ControlFlowGraph
+
+using "anonymous" as username and password.
 
 Make sure that projects ControlFlowGraph, Java1.4Frontend and
 Java1.5Frontend are unpacked into sibling directories of this one,
