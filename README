@@ -2,18 +2,12 @@
 
 The JastAdd Refactoring Tools are part of the JastAdd project
 (http://www.jastadd.org). The newest version of these tools will
-always be available from http://www.jastadd.org/refactoring-tools.
+always be available from http://code.google.com/p/jrrt/.
 
 The source code of JRRT is covered by the Eclipse Public License
 Version 1.0, which is distributed together with this software (in file
 EPL.html), and is available online at
 http://www.eclipse.org/legal/epl-v10.html.
-
-Included in the distribution are the JastAddJ Java 1.4 and Java 1.5
-frontend (in folders Java1.4Frontend, Java1.5Frontend) and parts of
-the JastAddJ control flow package (in folder
-ControlFlowGraph). Details on licenses for these tools are available
-in their respective folders.
 
 Overview:
 =========
@@ -24,11 +18,16 @@ recent versions of Eclipse are implemented.
 
 Building:
 =========
+JRRT depends on the JastAddJ compiler, specifically the
+Java1.4Frontend and Java1.5Frontend components. These can be
+downloaded from http://jastadd.org/web/jastaddj/. It also depends on
+parts of the JastAddJ control flow package, to be found at
+http://jastadd.org/web/jastaddj/extensions.php.
+
 Make sure that projects ControlFlowGraph, Java1.4Frontend and
 Java1.5Frontend are unpacked into sibling directories of this one,
-then do `ant clean' to be on the safe side. All necessary projects are
-included in the web distribution.  The project is built using ant with
-build file build.xml
+then do `ant clean' to be on the safe side. The project is built using
+ant with build file build.xml
 
 The most commonly used ant goals in build.xml are:
 gen        run JastAdd no generate node definitions and the scanner and
