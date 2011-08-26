@@ -46,10 +46,14 @@ aspect AccessMethod {
 
 	public MethodAccessInfo MethodAccessInfo.moveDownTo(TypeDecl td) {
 		bend = td;
-		if(!td.localMethods(target.name()).isEmpty())
+		if(!td.localMethodsSignature(target.signature()).isEmpty()) {
 			directlyVisible = false;
-		else if(directlyVisible)
-			source = td;
+		} else {
+			if(directlyVisible)
+				source = td;
+			for(Iterator<MethodDecl> iter=td.localMethods(target.name()).iterator(); iter.hasNext();)
+				competitors.add(iter.next());
+		}
 		return this;
 	}
 		
