@@ -24,6 +24,7 @@ aspect MoveMethod {
 		MethodDecl m_copy = (MethodDecl)m.fullCopyAndDetach();
 		for(MethodAccess ma : m.uses())
 			ma.lock(m_copy);
+		programRoot().lockOverridingDependencies(m.name());
 		Variable b_copy = b.isMethodParameter() ? m_copy.getParameter(b.name()) : b;
 		List<Expr> args = new List<Expr>();
 		for(ParameterDeclaration pd : m_copy.getParameters())
