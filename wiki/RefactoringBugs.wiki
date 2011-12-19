@@ -350,7 +350,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209317">Eclipse Bugs</a>, turned out to be a duplicate.
 
-  The same bug also occurs in JBuilder, !NetBeans, IntelliJ, and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, IntelliJ (fixed together with above), and JDeveloper.
 
 
 
