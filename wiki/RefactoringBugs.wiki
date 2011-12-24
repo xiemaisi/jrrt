@@ -599,7 +599,8 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
     public int m() {
       return 23;
     }
-  } }}}
+  }
+  }}}
 
   This program prints `42`. Extracting the indicated line into a new method `m` yields the following program, which prints `23`:
   {{{
@@ -623,7 +624,8 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
     public int m() {
       return 23;
     }
-  } }}}
+  }
+  }}}
 
   TODO: report to Eclipse and IntelliJ.</li>
 </ol>
