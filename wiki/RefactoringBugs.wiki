@@ -23,8 +23,8 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=208200">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20574">IntelliJ</a> (fixed), and JDeveloper.
-
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20574">IntelliJ</a> (fixed), and JDeveloper.</li>
+</ol>
 
 = Bugs in Rename Type =
 <ol>
@@ -55,7 +55,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=222848">Eclipse Bugs</a>, turned out to be a duplicate.
 
-  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20603">IntelliJ</a>, and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20603">IntelliJ</a>, and JDeveloper.</li>
 
 <li> <b>Renaming Member Type in Superclass Leads to Undiagnosed Shadowing</b>:
 
@@ -86,7 +86,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220781">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20634">IntelliJ</a> (fixed), and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20634">IntelliJ</a> (fixed), and JDeveloper.</li>
 
 <li><b>Renaming a Member Type Does Not Check for Shadowing of Inherited Member Types</b>:
 
@@ -118,7 +118,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=222045">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, !NetBeans, JDeveloper, but not in IntelliJ.
+  The same bug also occurs in JBuilder, !NetBeans, JDeveloper, but not in IntelliJ.</li>
 
 
 <li><b>Renaming a Type Does Not Check for Capture by Type Variable</b>:
@@ -133,17 +133,6 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
   class C<T> { }
   class D<B> extends C<A> { }
   }}}
-
-
-
-
-
-
-
-
-
-
-
 
   Renaming class `A` to `B` yields the following output:
   {{{
@@ -163,10 +152,8 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220780">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, !NetBeans, JDeveloper, but not in IntelliJ.
-
-
-	
+  The same bug also occurs in JBuilder, !NetBeans, JDeveloper, but not in IntelliJ.</li>
+</ol>
 
 = Bug in Rename Variable =
 <ol>
@@ -186,7 +173,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Renaming the field `myPI` to `PI` shadows the import from `java.lang.Math`.
   This problem is correctly diagnosed by Eclipse and JBuilder, but not by !NetBeans and JDeveloper. A
-  <a href="http://www.jetbrains.net/jira/browse/IDEA-20665">slightly more complex example</a> fools IntelliJ.
+  <a href="http://www.jetbrains.net/jira/browse/IDEA-20665">slightly more complex example</a> fools IntelliJ.</li>
 
 <li><b>Renaming Local Variable Can Lead to Shadowing By Field</b>:
 
@@ -219,9 +206,8 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
   The same bug also occurs in JBuilder, <a href="http://www.jetbrains.net/jira/browse/IDEA-20700">IntelliJ</a> (fixed), and JDeveloper, 
   but not in !NetBeans. If we instead try to
   rename `j` to `i`, Eclipse and JBuilder both report the danger of shadowing, whereas
-  !NetBeans and IntelliJ do not. JDeveloper does not implement this second renaming.
-
-	
+  !NetBeans and IntelliJ do not. JDeveloper does not implement this second renaming.</li>
+</ol>
 
 = Bug in Rename Method =
 <ol>
@@ -245,9 +231,8 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220779">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, !NetBeans, and JDeveloper, but not in IntelliJ.
-
-
+  The same bug also occurs in JBuilder, !NetBeans, and JDeveloper, but not in IntelliJ.</li>
+</ol>
 
 = Bugs in Encapsulate Field =
 <ol>
@@ -266,7 +251,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
    This bug was reported by someone else <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=34310">quite some time ago</a>,
    but judged "not critical".
 
-   The same bug also occurs in JBuilder and JDeveloper, but not in !NetBeans and IntelliJ.
+   The same bug also occurs in JBuilder and JDeveloper, but not in !NetBeans and IntelliJ.</li>
 
 <li> <b>No Check for Method Hiding</b>:
 
@@ -286,7 +271,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209315">Eclipse Bugs</a>, turned out to be a duplicate.
 
-  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20720">IntelliJ</a> (fixed), and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20720">IntelliJ</a> (fixed), and JDeveloper.</li>
 
 <li> <b>No Check for Overloading Problems</b>:
 
@@ -328,7 +313,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209316">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20745">IntelliJ</a> (fixed), and JDeveloper.
+  The same bug also occurs in JBuilder, !NetBeans, <a href="http://www.jetbrains.net/jira/browse/IDEA-20745">IntelliJ</a> (fixed), and JDeveloper.</li>
 
 <li><b>No Check for Invalid Overloading</b>:
 
@@ -350,9 +335,8 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=209317">Eclipse Bugs</a>, turned out to be a duplicate.
 
-  The same bug also occurs in JBuilder, !NetBeans, IntelliJ (fixed together with above), and JDeveloper.
-
-
+  The same bug also occurs in JBuilder, !NetBeans, IntelliJ (fixed together with above), and JDeveloper.</li>
+</ol>
 
 = Bugs in Extract Method =
 <ol>
@@ -414,7 +398,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
   Reported to <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109280">Eclipse Bugs</a> (fixed).
 
-  This bug does not occur in JBuilder, !NetBeans, IntelliJ, and JDeveloper.
+  This bug does not occur in JBuilder, !NetBeans, IntelliJ, and JDeveloper.</li>
 <li>Trying to apply the Extract Method refactoring on the following selection results in an unnecessary rejection.
 
   Original program: 
@@ -468,7 +452,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
   }}}
   Track this bug at <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=109282">Eclipse Bugs</a>.
 
-  The same bug also occurs in JBuilder, !NetBeans, and JDeveloper, but not in IntelliJ.
+  The same bug also occurs in JBuilder, !NetBeans, and JDeveloper, but not in IntelliJ.</li>
 
 <li><b>Liveness Analysis in Extract Method Is Not Precise Enough</b>:
 
@@ -502,7 +486,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
     Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=220777">Eclipse Bugs</a>.
 
-    The same bug also occurs in JBuilder and !NetBeans, but not in IntelliJ and JDeveloper.
+    The same bug also occurs in JBuilder and !NetBeans, but not in IntelliJ and JDeveloper.</li>
 
 <li><b>Local types are not handled correctly</b>:
 
@@ -539,7 +523,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
 
     which fails to compile.
 
-    The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20769">IntelliJ</a> (fixed).
+    The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20769">IntelliJ</a> (fixed).</li>
 <li> <b>Incorrect dataflow analysis</b>:
 
   Test case:
@@ -595,10 +579,10 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
   Eclipse has `n` return the value of `x`, which is unnecessary, but not our main concern. More importantly, note that the
   value printed in the `catch` clause is the unmodified value of `x`, hence the refactored program prints `42`.
 
-  The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-21120">IntelliJ</a>, although it correctly diagnoses that the value of `x` does not need to be returned. The bug is fixed in the newest release.
+  The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-21120">IntelliJ</a>, although it correctly diagnoses that the value of `x` does not need to be returned. The bug is fixed in the newest release.</li>
+</ol>
 
-
-= Bugs in Inline Local Variable =
+=Bugs in Inline Local Variable=
 <ol>
 <li> <b>Incorrect handling of references to final variables</b>:
 
@@ -624,9 +608,44 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
   which fails to compile, since `j` is not final and hence inaccessible
   from inside the anonymous class.
 
-  The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20790">IntelliJ</a>.
+  The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20790">IntelliJ</a>.</li>
+<li> <b>Incorrect handling of hidden field references</b>:
 
+  Test case:
+  {{{
+  public class A {
+    int f = 42;
+    int foo() {
+      int r = f;
+      int f = 23;
+      return r;
+    }
+	
+    public static void main(String[] args) {
+      System.out.println(new A().foo());
+    }
+  }
+  }}}
 
+  This program prints `42`.
+
+  Inlining variable `r` yields the following program, which prints `23`:
+  {{{
+  public class A {
+    int f = 42;
+    int foo() {
+      int f = 23;
+      return f;
+    }
+	
+    public static void main(String[] args) {
+      System.out.println(new A().foo());
+    }
+  }
+  }}}
+
+  </li>
+</ol>
 
 = Bugs in Push Down Method =
 Note: None of these example refactorings could be tested in JDeveloper.
@@ -655,7 +674,7 @@ Note: None of these example refactorings could be tested in JDeveloper.
    
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211755">Eclipse Bugs</a>.
 
-  The same bug occurs in JBuilder, !NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20816">IntelliJ</a> (fixed).
+  The same bug occurs in JBuilder, !NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20816">IntelliJ</a> (fixed).</li>
 
 <li> <b>Incorrect handling of field accesses</b>:   
 
@@ -705,7 +724,7 @@ Note: None of these example refactorings could be tested in JDeveloper.
    
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211859">Eclipse Bugs</a>.
 
-  The same bug occurs in JBuilder and !NetBeans, but not in IntelliJ.
+  The same bug occurs in JBuilder and !NetBeans, but not in IntelliJ.</li>
 
 <li><b>Incorrect Handling of Private Method Accesses</b>:
 
@@ -729,8 +748,7 @@ Note: None of these example refactorings could be tested in JDeveloper.
    
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211860">Eclipse Bugs</a>.
 
-  The same bug occurs in JBuilder, !NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20873">IntelliJ</a> (fixed).
-
+  The same bug occurs in JBuilder, !NetBeans, and <a href="http://www.jetbrains.net/jira/browse/IDEA-20873">IntelliJ</a> (fixed).</li>
 
 <li><b>No Check for References to Moved Method</b>:
    
@@ -752,4 +770,5 @@ Note: None of these example refactorings could be tested in JDeveloper.
    
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211861">Eclipse Bugs</a>, turned out to be a duplicate.
 
-  The same bug also occurs in JBuilder and !NetBeans, but not in IntelliJ.
+  The same bug also occurs in JBuilder and !NetBeans, but not in IntelliJ.</li>
+</ol>
