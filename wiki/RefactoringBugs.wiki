@@ -644,6 +644,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
   }
   }}}
 
+  This bug has been reported <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=367534">Eclipse Bugs</a>.
   </li>
 </ol>
 
@@ -771,4 +772,3 @@ Note: None of these example refactorings could be tested in JDeveloper.
   Reported to <a href="http://bugs.eclipse.org/bugs/show_bug.cgi?id=211861">Eclipse Bugs</a>, turned out to be a duplicate.
 
   The same bug also occurs in JBuilder and !NetBeans, but not in IntelliJ.</li>
-</ol>
