@@ -609,7 +609,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
   from inside the anonymous class.
 
   The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-20790">IntelliJ</a>.</li>
-<li> <b>Incorrect handling of hidden field references</b>:
+<li> <b>Incorrect handling of references to shadowed fields</b>:
 
   Test case:
   {{{
