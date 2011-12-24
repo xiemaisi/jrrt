@@ -1,4 +1,4 @@
-Here is a list of bugs we found in the refactoring engines of Eclipse and other popular Java IDEs. All test cases were evaluated on Eclipse 3.3.1, JBuilder 2007, !NetBeans 6.0, IntelliJ 8.0, and JDeveloper 11g.
+Here is a list of bugs we found in the refactoring engines of Eclipse and other popular Java IDEs. All test cases were evaluated on various versions of Eclipse and IntelliJ and bug reports were filed; we indicate which bugs were eventually fixed. Some cases were also evaluated on JBuilder 2007, !NetBeans 6.0, and JDeveloper 11g, but so far have not been reported.
 
 This list was started by Ran Ettinger and Mathieu Verbaere; in its current form it is due to Torbjörn Ekman and Max Schäfer.
 
@@ -580,6 +580,52 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
   value printed in the `catch` clause is the unmodified value of `x`, hence the refactored program prints `42`.
 
   The same bug occurs in <a href="http://www.jetbrains.net/jira/browse/IDEA-21120">IntelliJ</a>, although it correctly diagnoses that the value of `x` does not need to be returned. The bug is fixed in the newest release.</li>
+<li><b>No overriding check for extracted method</b>:
+
+  Test case:
+  {{{
+  public class A {
+    int foo() {
+      int r = 42; // extract this line
+      return r;
+    }
+
+    public static void main(String[] args) {
+      System.out.println(new B().foo());
+    }
+  }
+
+  class B extends A {
+    public int m() {
+      return 23;
+    }
+  } }}}
+
+  This program prints `42`. Extracting the indicated line into a new method `m` yields the following program, which prints `23`:
+  {{{
+  public class A {
+    int foo() {
+      int r = m();
+      return r;
+    }
+
+    public int m() {
+      int r = 42;
+      return r;
+    }
+
+    public static void main(String[] args) {
+      System.out.println(new B().foo());
+    }
+  }
+
+  class B extends A {
+    public int m() {
+      return 23;
+    }
+  } }}}
+
+  TODO: report to Eclipse and IntelliJ.</li>
 </ol>
 
 =Bugs in Inline Local Variable=
