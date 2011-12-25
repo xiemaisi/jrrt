@@ -627,7 +627,7 @@ This list was started by Ran Ettinger and Mathieu Verbaere; in its current form 
   }
   }}}
 
-  TODO: report to Eclipse and IntelliJ.</li>
+  This bug has been reported to <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=367543">Eclipse Bugs</a> and <a href="http://youtrack.jetbrains.net/issue/IDEA-79297">the IntelliJ bug tracker</a>.</li>
 </ol>
 
 =Bugs in Inline Local Variable=
