@@ -16,6 +16,6 @@ aspect InsertEmptyStmt {
 	eq LabeledStmt.getStmt().delete() {
 		if(!uses().isEmpty())
 			throw new RefactoringException("cannot delete this statement");
-		delete();
+		return delete();
 	}
 }

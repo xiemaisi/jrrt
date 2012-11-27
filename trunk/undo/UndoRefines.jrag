@@ -1,7 +1,7 @@
 aspect UndoRefines {
 	
 	// package names and package decls
-	refine java public void CompilationUnit.setPackageDecl(final java.lang.String value) {
+	refine public void CompilationUnit.setPackageDecl(final java.lang.String value) {
 		if (Program.isRecordingASTChanges()) {
 			Program.addUndoAction(new ASTModificationReplaceEdit(this.isInTree(), this, PackageDeclstart, PackageDeclend, tokenjava_lang_String_PackageDecl, value) {
 				@Override
