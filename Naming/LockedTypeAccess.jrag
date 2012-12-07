@@ -208,7 +208,9 @@ aspect LockedTypeAccess {
 	}
 	
 	protected Access TypeAccess.unlockTypeVariableAccess(TypeVariable target, Expr qual) {
-		if(!lookupName(target.name()).isSingleton(target))
+		SimpleSet names = lookupName(target.name());
+		if(names.isEmpty()) return this;
+		if(!names.isSingleton(target))
 			throw new RefactoringException("cannot access shadowed/obscured type variable");
 		setPackage("");
 		setID(target.name());
