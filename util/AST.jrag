@@ -40,13 +40,6 @@ aspect AST {
 		return (Program)n;
 	}
 	
-	public CompilationUnit ASTNode.compilationUnit() {
-		ASTNode n=this;
-		while(n!=null && !(n instanceof CompilationUnit))
-			n=n.getParent();
-		return (CompilationUnit)n;
-	}
-	
 	public BodyDecl ASTNode.hostBodyDecl() {
 		ASTNode n=this;
 		while(n!=null && !(n instanceof BodyDecl))
