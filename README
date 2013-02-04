@@ -28,8 +28,6 @@ is available from svn under
 
   http://svn.cs.lth.se/svn/jastadd-oxford/projects/trunk/JastAddExtensions/ControlFlowGraph
 
-using "anonymous" as username and password.
-
 Make sure that projects ControlFlowGraph, Java1.4Frontend and
 Java1.5Frontend are unpacked into sibling directories of this one,
 then do `ant clean' to be on the safe side. The project is built using
