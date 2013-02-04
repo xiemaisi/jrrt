@@ -33,6 +33,8 @@ aspect AST {
 		return node;
 	}
 	
+	inh CompilationUnit ASTNode.compilationUnit();
+	
 	public Program ASTNode.programRoot() {
 		ASTNode n=this;
 		while(n!=null && !(n instanceof Program))
