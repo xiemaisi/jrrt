@@ -1,0 +1,1 @@
+The JastAdd Refactoring Tools (JRRT) are a suite of refactoring tools implementing common Java refactorings available, for instance, in Eclipse JDT, on top of the JastAddJ Java compiler frontend.
